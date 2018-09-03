@@ -13,7 +13,7 @@
 
 # Config
 $ServiceName = 'SplunkForwarder'
-$Computers = @('hws-epvw-cpr301','hws-iavw-cpr202','hws-iavw-cpr302','hws-ipbw-cvm301')
+$Computers = @('compname1','compname2','compname3','compname4')
 $Credential = Get-Credential
 
 # Restart service on all computers
