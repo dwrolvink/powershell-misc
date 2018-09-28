@@ -1,6 +1,7 @@
 
 
-<# This function takes the ACL from a source folder, and adds the ACE's to a target folder, such that the original ACE's of the target folder are preserved.#>
+<# This function takes the ACL from a source folder, and adds the ACE's to a target folder, such that the original ACE's of the 
+   target folder are preserved.#>
 
 function Add-ACLFromSourceFolder
 {
@@ -29,10 +30,12 @@ function Add-ACLFromSourceFolder
 
 
 
-<# This function sets inheritance to enable. This is a quick way to restore inheritance after a /mir with robocopy (where the source acl is preserved, 
-   but the groups of the target parent folder are not automatically applied to the copied files/folders.
-   The same could be achieved through the GUI, disabling and then reenabling inheritance, but such would take twice as long, as first disabling will take its
-   time to apply with big folders. (And first disabling is only necessary in the GUI, enabling it like this updates the ACL just fine.) 
+<# This function sets inheritance to enable. This is a quick way to restore inheritance after a /mir with robocopy 
+   (where the source acl is preserved, but the groups of the target parent folder are not automatically applied to the copied 
+   files/folders.)
+   The same could be achieved through the GUI, disabling and then reenabling inheritance, but such would take twice as long, 
+   as first disabling will take its time to apply with big folders. (And first disabling is only necessary in the GUI, 
+   enabling it like this updates the ACL just fine.) 
  #>
  
 Function EnableInheritance
