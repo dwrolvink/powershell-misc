@@ -1,7 +1,10 @@
 
 
-<# This function takes the ACL from a source folder, and adds the ACE's to a target folder, such that the original ACE's of the 
-   target folder are preserved.#>
+<# Add-ACLFromSourceFolder
+
+   This function takes the ACL from a source folder, and adds the ACE's to a target folder, such that the original ACE's of the 
+   target folder are preserved.
+#>
 
 function Add-ACLFromSourceFolder
 {
@@ -20,9 +23,9 @@ function Add-ACLFromSourceFolder
     }
 
     # Set explicit rule
-    #$rule = New-Object System.Security.AccessControl.FileSystemAccessRule($ADobject, "FullControl", "ContainerInherit, ObjectInherit", "None", "Allow")
-    #$Acl_folder.SetAccessRule($rule)
-
+    #$rule = New-Object System.Security.AccessControl.FileSystemAccessRule(`
+    #                $ADobject, "FullControl", "ContainerInherit, ObjectInherit", "None", "Allow")
+    #$Acl_target.SetAccessRule($rule)
 
     Set-Acl $TargetFolder $Acl_target
 }
@@ -30,7 +33,10 @@ function Add-ACLFromSourceFolder
 
 
 
-<# This function sets inheritance to enable. This is a quick way to restore inheritance after a /mir with robocopy 
+<# 
+   Enable-Inheritance
+   
+   This function sets inheritance to enable. This is a quick way to restore inheritance after a /mir with robocopy 
    (where the source acl is preserved, but the groups of the target parent folder are not automatically applied to the copied 
    files/folders.)
    The same could be achieved through the GUI, disabling and then reenabling inheritance, but such would take twice as long, 
@@ -38,7 +44,7 @@ function Add-ACLFromSourceFolder
    enabling it like this updates the ACL just fine.) 
  #>
  
-Function EnableInheritance
+Function Enable-Inheritance
 {
     param($Folder)
 
@@ -53,7 +59,7 @@ Function EnableInheritance
 # MAIN CODE
 
 $Folder = '\\usa-of-whatever\parent\update-this-folders-acl-inheritance'
-EnableInheritance -Folder $Folder
+Enable-Inheritance -Folder $Folder
 
 $TargetFolder = 'C:\folder-to-be-updated'
 $SourceFolder = 'C:\acl-template-folder'
