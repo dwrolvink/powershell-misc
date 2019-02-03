@@ -1,6 +1,9 @@
 # Introduction to Powershell Modules
-## The purpose of modules
-Let's say we write a simple function, and then want to use it throughout a package, or just anywhere on our local machine:
+## The goal
+Let's say we write a simple function, and then want to use it throughout a package, or just anywhere on our local machine. How do we make such a function available in a way that's simple and sustainable?
+
+## How you might do it without modules
+Take the function below. Note that it's very simple. When you're planning on starting a big project, it's always useful to start with basic wrapper functions for often used actions. Now, if we want to change the way we log later on, instead of refactoring all our scripts, we only need to change the wrapper function below.
 
 ``` powershell
 # .\writelog.ps1
@@ -12,7 +15,8 @@ Function Write-Log()
   $message >> $LogFilePath
 }
 ```
-To have this function available we would need to run the code in powershell everytime we want to use it.
+Taking that it's a wrapper function that basically extends on Write-Host, and will be used everywhere in our codebase, we'll need to find a way to make it accesible everywhere.
+
 If we want to have it automatically available in another script, and not have to separately run writelog.ps1 beforehand,
 we could resort to dot sourcing:
 
@@ -21,21 +25,22 @@ we could resort to dot sourcing:
 . writelog.ps1
 Write-Log -Message "Hi" -LogFilePath "C:/log.txt"
 ```
-This is pretty useful for simple packages of scripts, but when you get to the point where you want to expand a simple package,
-or reuse the code in a different project, the dot sourcing might pose a problem with file locations changing as we restructure
-our code base. Also, merely changing the location of the package itself will break the dot sourcing, unless you use full path names,
-or add a copy of your writelog.ps1 file to any solution using it. It's clear that none of these options are viable
-in the long run.
+This method is really useful for breaking up a large script into several parts. All the scripts will then be in the same folder and will always be at the same location relative to eachother. If you want to create a finer structure later on though, like separating the functions and config files into separate folders, you'll need to update the filepath in all the scripts where dot sourcing has been used. Not very flexible.
 
-It would also be useful to have one logging solution being available anytime we run code, even if it's just in the CLI. Maybe 
-even have it possible to easily export this code to another machine and make it available there too.
+It would also be useful to have one logging solution being available anytime we run code, even if it's just in the CLI. Maybe even have it possible to easily export this code to another machine and make it available globally there too.
 
 
 ## A simple module
-There really isn't much to making this happen. First, we change the filename extension of our previous file from .ps1 to .psm1..
+There really isn't much to making this happen. First, we change the filename extension of our previous file from .ps1 to .psm1.
+
 Then, we put this module file into a folder that is listed in `$PSModulePath`. This would by default be 
-`$home\Documents\WindowsPowerShell\Modules\` to make this accessible for yourself, and `$pshome\Modules` to make the module 
-accessible for everyone on the machine. The folder has to have the same name as the module file. In this example the path will be:
+`$home\Documents\WindowsPowerShell\Modules\` (to make this accessible for only yourself), and `$pshome\Modules` to make the module accessible for everyone on the machine. 
+
+Note that you can always add extra folders to the $PSModulePath. 
+
+The .psm1 file has to be in a folder of the same name. That folder has to be directly in one of the filepaths listed in $PSModulePath.
+
+In this example the path will be:
 
 ```
 C:\Users\<username>\Documents\WindowsPowerShell\Modules\WriteLog\WriteLog.psm1
