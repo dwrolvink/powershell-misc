@@ -1,6 +1,10 @@
 # Introduction to Powershell Modules
 ## The goal
-Let's say we write a simple function, and then want to use it throughout a package, or just anywhere on our local machine. How do we make such a function available in a way that's simple and sustainable?
+Let's say we write a simple function, and then want to use it throughout a package, or just anywhere on our local machine. How do we make such a function available in a way that's simple and sustainable? Answer: you make modules. 
+
+How do we then do the same for the modules? I.e.: automatically loading in another module, when loading in a module that requires it? Answer: module manifests.
+
+In this tutorial I'll describe how to go from running a function to make it accessible, to creating modules that import other modules.
 
 ## How you might do it without modules
 Take the function below. Note that it's very simple. When you're planning on starting a big project, it's always useful to start with basic wrapper functions for often used actions. Now, if we want to change the way we log later on, instead of refactoring all our scripts, we only need to change the wrapper function below.
@@ -54,11 +58,11 @@ Import-Module WriteLog
 Write-Log -Message "Hi" -LogFilePath "C:/log.txt"
 ```
 ## Expanding on this
-You can now add extra functions to WriteLog.psm1. Any function in there will be loaded when the module is loaded, in this way, it's very easy to expand your logging options by just adding extra functions to the module that you've already created.
-
-You can even load the module in your .profile so it will always be accessible by default in your CLI. 
+You can now add extra functions to WriteLog.psm1. Any function in there will be loaded when the module is loaded. This way, it's very easy to expand your logging options by just adding extra functions to the module that you've already created.
 
 Installing the module on another computer is as simple as just copying the folder over to that computer's $PSModulePath.
+
+Note that any module in the $PSModulePath will be automatically loaded into your CLI, you don't need to run Import-Module. 
 
 A script should always include the `Import-Module <ModuleName>` line though, to make it clear that this module is required for the script to run, even if the module is loaded by default on your powershell profile (as it might not be on others!).
 
@@ -66,7 +70,7 @@ A script should always include the `Import-Module <ModuleName>` line though, to 
 Instead of putting every kind of custom function in one module, you might want to split your module up into different packages.
 
 For example, you might want to put all your logging functionality in one package, and have a general package that does a lot
-of custom things use that module by default.
+of custom things use that module by default. These packages can be called submodules, or better known as NestedModules.
 
 So, let's say we create a new module, called __InfraManager__, that brings a lot of custom functions with it, like connecting to storage solutions, creating VM's, etc. We'll also rename WriteLog into __Logger__ to make it more clear that this module is a general logger, not just a way to dynamically load the Write-Log function.  
 
