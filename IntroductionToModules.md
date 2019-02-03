@@ -71,11 +71,13 @@ of custom things use that module by default.
 So, let's say we create a new module, called __InfraManager__, that brings a lot of custom functions with it, like connecting to storage solutions, creating VM's, etc. We'll also rename WriteLog into __Logger__ to make it more clear that this module is a general logger, not just a way to dynamically load the Write-Log function.  
 
 Let's assume the following: The Logger module will have to be loaded whenever InfraManager is loaded, 
-as InfraManager uses functions from Logger throughout its own functions. One way to do this is to simply add `Import-Module WriteLog` at the top of InfraManager.psm1. 
+as InfraManager uses functions from Logger throughout its own functions. One way to do this is to simply add `Import-Module Logger` at the top of InfraManager.psm1. 
 
 This will only work for fully fledged
 modules though, i.e. modules that are installed directly on the $PSModulePath. In my case, I want to split up InfraManager into a lot
-of different submodules, but I don't necessarily want to install them as full modules yet. I want to be able to install just 
+of different submodules, but I don't necessarily want to install them as full modules yet. 
+
+I want to be able to install just 
 InfraManager, and have the code segmented into submodules that will be loaded in with it (as it's a structural part of the larger module as a whole). We can then split off the submodules into their own fully fledged modules
 when they are mature enough (and have a usecase outside of InfraManager, like a universal logging tool would).
 
@@ -111,24 +113,44 @@ Run the following command in powershell:
 New-ModuleManifest -Path "$home\Documents\WindowsPowerShell\Modules\InfraManager\InfraManager.psd1"
 ```
 
-This will create a full manifest for you. You can look here for information on the extra options in that file
-[How to write a powershell manifest](https://docs.microsoft.com/en-us/powershell/developer/module/how-to-write-a-powershell-module-manifest).
+This will create a full manifest for you. You can look here for information on the extra options in that file:
+[How to write a powershell manifest (docs.microsoft)](https://docs.microsoft.com/en-us/powershell/developer/module/how-to-write-a-powershell-module-manifest).
 
-For now, we will be concerned mostly with RequiredModules, and NestedModules.
+For now, we will be concerned mostly with RequiredModules, NestedModules, and FunctionsToExport.
 
 The comments in the file are pretty self explanatory. If we want to preload modules that are not (directly) in the $PSModulePath
 when we load the InfraManager module we can add the following to the NestedModules list:
 ``` powershell
-NestedModules     = @(  'Modules\WriteLog\WriteLog.psm1' )
+NestedModules     = @(  'Modules\Logger\Logger.psm1' )
 ```
-Notice that this path is relative to $PSScriptRoot, so make sure that the `\WriteLog\` folder is pasted under 
-`C:\Users\<username>\Documents\WindowsPowerShell\Modules\InfraManager\Modules\`
+Notice that this path is relative to $PSScriptRoot.
 
-If we then later change WriteLog to a full fledged module, we can copy the WriteLog folder directy under `C:\Users\<username>\Documents\WindowsPowerShell\Modules\`, 
+Now, there is a choice to be made. You can specify the FunctionsToExport variable. Microsoft docs state that:
+
+> FunctionsToExport specifies the functions that the module exports (wildcard characters are permitted) to the caller's session state. By default, all functions are exported. You can use this key to restrict the functions that are exported by the module.
+
+This is thus a way to have internal functions (that only serve to help the cmdlets that the user uses) not show up after importing the module. If you want this, then you should specify FunctionsToExport.
+
+For me, FunctionsToExport looked like this in my freshly generated .psd1:
+
+``` powershell
+FunctionsToExport = @()
+```
+
+This lead to some headscratching as no functions were exported, while I didn't change the default setting. What the documentation mean to say is that:
+
+``` powershell
+#FunctionsToExport = @()
+```
+Will lead to all functions being exported. If you leave the default setting in the .psd1 file, no functions will be exported as FunctionsToExport is defined as an empty list.
+
+
+#### Exporting submodules as proper modules
+If we later want to change Logger to a full fledged module, we can copy the Logger folder to be directy under `C:\Users\<username>\Documents\WindowsPowerShell\Modules\`, 
 and remove the item from NestedModules, and change RequiredModules:
 
 ``` powershell
-RequiredModules = @('WriteLog')
+RequiredModules = @('Logger')
 ```
 
 ### Conclusion: Why use manifests in our case
