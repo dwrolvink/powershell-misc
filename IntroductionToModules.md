@@ -53,25 +53,36 @@ Now we can use the Write-Log function in any script by doing the following:
 Import-Module WriteLog
 Write-Log -Message "Hi" -LogFilePath "C:/log.txt"
 ```
-You can now write one module with all the functions in there and have them all be dynamically accessible from any location, 
-while being stored at only one location. Installing the module is as simple as just copying the folder over to a $PSModulePath
-on another computer. You can even load the module in your .profile so it will always be accessible by default in your CLI. 
-A script should always include the `Import-Module <ModuleName>` line though, to make it clear that this module is required for
-the script to run.
+## Expanding on this
+You can now add extra functions to WriteLog.psm1. Any function in there will be loaded when the module is loaded, in this way, it's very easy to expand your logging options by just adding extra functions to the module that you've already created.
+
+You can even load the module in your .profile so it will always be accessible by default in your CLI. 
+
+Installing the module on another computer is as simple as just copying the folder over to that computer's $PSModulePath.
+
+A script should always include the `Import-Module <ModuleName>` line though, to make it clear that this module is required for the script to run, even if the module is loaded by default on your powershell profile (as it might not be on others!).
 
 ## A Root Module (aka Module Manifest)
 Instead of putting every kind of custom function in one module, you might want to split your module up into different packages.
+
 For example, you might want to put all your logging functionality in one package, and have a general package that does a lot
 of custom things use that module by default.
 
-So, let's say we create a new module, called __InfraManager__, that brings a lot of custom functions with it, like connecting to
-storage solutions, creating VM's, etc. And __WriteLog__ will have to be loaded before InfraManager for it to work properly, 
-as it uses functions from that module throughout its own functions.
+So, let's say we create a new module, called __InfraManager__, that brings a lot of custom functions with it, like connecting to storage solutions, creating VM's, etc. 
+
+We'll also rename WriteLog into __Logger__ to make it more clear that this module is a general logger, not just a way to dynamically load the Write-Log function.  
+
+Let's assume the following: The Logger module will have to be loaded whenever InfraManager is loaded, 
+as InfraManager uses functions from Logger throughout its own functions.
 
 One way to do this is to simply add `Import-Module WriteLog` at the top of InfraManager.psm1. This will only work for fully fledged
-modules though, i.e. modules that are installed on the $PSModulePath. In my case, I want to split up InfraManager into a lot
+modules though, i.e. modules that are installed on the $PSModulePath. 
+
+In my case, I want to split up InfraManager into a lot
 of different submodules, which I don't necessarily want to install as full modules yet. I want to be able to install just 
-InfraManager, and have the code segmented into submodules, and split off the submodules into their own fully fledged modules
+InfraManager, and have the code segmented into submodules that will be loaded in with it (as it's a structural part of the larger module as a whole). 
+
+We can then split off the submodules into their own fully fledged modules
 when they are mature enough (and have a usecase outside of InfraManager, like a universal logging tool would).
 
 For this to work we'll have to create a module manifest next to our InfraManager.psm1 file. Let's first make that file because
