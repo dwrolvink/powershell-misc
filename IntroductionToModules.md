@@ -68,25 +68,20 @@ Instead of putting every kind of custom function in one module, you might want t
 For example, you might want to put all your logging functionality in one package, and have a general package that does a lot
 of custom things use that module by default.
 
-So, let's say we create a new module, called __InfraManager__, that brings a lot of custom functions with it, like connecting to storage solutions, creating VM's, etc. 
-
-We'll also rename WriteLog into __Logger__ to make it more clear that this module is a general logger, not just a way to dynamically load the Write-Log function.  
+So, let's say we create a new module, called __InfraManager__, that brings a lot of custom functions with it, like connecting to storage solutions, creating VM's, etc. We'll also rename WriteLog into __Logger__ to make it more clear that this module is a general logger, not just a way to dynamically load the Write-Log function.  
 
 Let's assume the following: The Logger module will have to be loaded whenever InfraManager is loaded, 
-as InfraManager uses functions from Logger throughout its own functions.
+as InfraManager uses functions from Logger throughout its own functions. One way to do this is to simply add `Import-Module WriteLog` at the top of InfraManager.psm1. 
 
-One way to do this is to simply add `Import-Module WriteLog` at the top of InfraManager.psm1. This will only work for fully fledged
-modules though, i.e. modules that are installed on the $PSModulePath. 
-
-In my case, I want to split up InfraManager into a lot
-of different submodules, which I don't necessarily want to install as full modules yet. I want to be able to install just 
-InfraManager, and have the code segmented into submodules that will be loaded in with it (as it's a structural part of the larger module as a whole). 
-
-We can then split off the submodules into their own fully fledged modules
+This will only work for fully fledged
+modules though, i.e. modules that are installed directly on the $PSModulePath. In my case, I want to split up InfraManager into a lot
+of different submodules, but I don't necessarily want to install them as full modules yet. I want to be able to install just 
+InfraManager, and have the code segmented into submodules that will be loaded in with it (as it's a structural part of the larger module as a whole). We can then split off the submodules into their own fully fledged modules
 when they are mature enough (and have a usecase outside of InfraManager, like a universal logging tool would).
 
-For this to work we'll have to create a module manifest next to our InfraManager.psm1 file. Let's first make that file because
-we havent yet in this tutorial:
+We created WriteLog as a standalone module, in the next example we'll install the same module (renamed to Logger) as a submodule of InfraManager (the root module).
+
+Let's build a quick InfraManager.psm1 file:
 
 ``` powershell
 # $home\Documents\WindowsPowerShell\Modules\InfraManager\Inframanager.psm1
@@ -96,12 +91,24 @@ Function Test-Logging()
   Write-Log "testest" -LogFilePath "C:/log.txt"
 }
 ```
+We place InfraManager.psm1 in a folder, called InfraManager, and place this folder in a $PSModulePath folder, i.e.: `$home\Documents\WindowsPowerShell\Modules\` 
+
+In the InfraManager folder, we create a folder called Modules, in which we'll place the WriteLog module folder (again, renamed to Logger), We thus get:
+
+```
+-- $home\Documents\WindowsPowerShell\Modules\
+-- -- \InfraManager\
+-- -- -- \Modules\
+-- -- -- -- \Logger\
+-- -- -- -- -- \Logger.psm1
+-- -- -- \InfraManager.psm1
+```
 
 ### Creating the module manifest
 Run the following command in powershell:
 
 ``` powershell
-New-ModuleManifest -Path "C:\Users\<username>\Documents\WindowsPowerShell\Modules\InfraManager\InfraManager.psd1"
+New-ModuleManifest -Path "$home\Documents\WindowsPowerShell\Modules\InfraManager\InfraManager.psd1"
 ```
 
 This will create a full manifest for you. You can look here for information on the extra options in that file
