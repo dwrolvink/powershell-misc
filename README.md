@@ -31,7 +31,12 @@ This profile will rewrite the titlebar to show the user, whether you're elevated
 ### Restart Service On Multiple Computers
 Takes ServiceName, Computer list, login credential
 Script tries to log in to every computer in the computer list using the given Credential
-It then tries to restart the service using Invoke-Command
+It then tries to restart the service using Invoke-Command.
+
+This script might be improved by just giving the entire computer array to the invoke-command cmdlet. 
+One would have to figure out how to do the errorhandling well then.
+
+[RestartServiceOnMultipleComputers](SimpleScripts/RestartServiceOnMultipleComputers.ps1)
 
 ---
 
