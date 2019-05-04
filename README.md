@@ -9,11 +9,15 @@ How to best organize powershell code? In this tutorial I describe the problems w
 
 ## Scripts
 
-### GUI & Jobs Demo
+### GUI
+#### `GUI` GUI & Jobs Demo
 When creating a powershell GUI, it's quite tricky to have the GUI not freeze up while a called function is running.
 To combat this, I've created a handler function that will run a powershell job and processes GUI events while the job is running.
 
 [gui_and_jobs_demo.ps1](gui/gui_and_jobs_demo.ps1)
+
+#### `GUI` Get recursive AD membership/members
+GUI with which you can get all groups a user is member of (directly or indirectly), and/or all the users that are member of a group (directly or indirectly), up to a given depth.
 
 ### Rewrite prompt and titlebar
 When browsing long filepaths, the ISE prompt can get pretty longwinded and fill up the entire row.
