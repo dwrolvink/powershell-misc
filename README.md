@@ -1,5 +1,11 @@
 # Powershell-Misc
-This is where I put all my general purpose powershell scripts
+This is where I put all my general purpose powershell scripts/tutorials
+
+## Tutorials
+### Introduction to Powershell modules
+How to best organize powershell code? In this tutorial I describe the problems with organizing code, how to solve it without modules, and finally how to do it better with modules.
+
+[Introduction to Powershell Modules](Tutorials/IntroductionToModules.md)
 
 ### GUI & Jobs Demo
 When creating a powershell GUI, it's quite tricky to have the GUI not freeze up while a called function is running.
