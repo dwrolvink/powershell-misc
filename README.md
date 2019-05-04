@@ -7,6 +7,8 @@ How to best organize powershell code? In this tutorial I describe the problems w
 
 [Introduction to Powershell Modules](Tutorials/IntroductionToModules.md)
 
+## Scripts
+
 ### GUI & Jobs Demo
 When creating a powershell GUI, it's quite tricky to have the GUI not freeze up while a called function is running.
 To combat this, I've created a handler function that will run a powershell job and processes GUI events while the job is running.
