@@ -24,7 +24,7 @@ This profile will rewrite the titlebar to show the user, whether you're elevated
 ### Apply ACL From Source folder To Destination folder
 With this script, you can define the proper access control list on a template folder, and apply it to any destination folder, while preserving whatever extra ACE's there might be on that destination folder. 
 
-(ACL-functions.ps1)[SimpleScripts/ACL-functions.ps1)
+[ACL-functions.ps1](SimpleScripts/ACL-functions.ps1)
 
 ### r_GetFolderSize($current_folder)
 This function can be used to crawl a folder down to all the subfolders and get a total size of the folder
