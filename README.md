@@ -10,6 +10,7 @@ To combat this, I've created a handler function that will run a powershell job a
 ### Rewrite prompt and titlebar
 When browsing long filepaths, the ISE prompt can get pretty longwinded and fill up the entire row.
 This profile will rewrite the titlebar to show the user, whether you're elevated as that user, and the filepath.
+
 [profile.ps1](profile.ps1)
 
 ### r_GetFolderSize($current_folder)
