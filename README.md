@@ -19,7 +19,12 @@ To combat this, I've created a handler function that will run a powershell job a
 When browsing long filepaths, the ISE prompt can get pretty longwinded and fill up the entire row.
 This profile will rewrite the titlebar to show the user, whether you're elevated as that user, and the filepath.
 
-[profile.ps1](profile.ps1)
+[SimpleScripts/profile.ps1](profile.ps1)
+
+### Apply ACL From Source folder To Destination folder
+With this script, you can define the proper access control list on a template folder, and apply it to any destination folder, while preserving whatever extra ACE's there might be on that destination folder. 
+
+(ACL-functions.ps1)[SimpleScripts/ACL-functions.ps1)
 
 ### r_GetFolderSize($current_folder)
 This function can be used to crawl a folder down to all the subfolders and get a total size of the folder
