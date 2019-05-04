@@ -63,4 +63,4 @@ Enable-Inheritance -Folder $Folder
 
 $TargetFolder = 'C:\folder-to-be-updated'
 $SourceFolder = 'C:\acl-template-folder'
-#Add-ACLFromSourceFolder -TargetFolder $TargetFolder  -SourceFolder $SourceFolder
+Add-ACLFromSourceFolder -TargetFolder $TargetFolder  -SourceFolder $SourceFolder
