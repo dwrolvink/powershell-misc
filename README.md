@@ -52,3 +52,5 @@ Especially useful for network shares that don't show the folder size in the prop
 
 [r_GetFolderSize](SimpleScripts/GetFolderSize.ps1)
 
+## Load Simulation
+For my work, I sometimes have to create a certain kind of load on a system to test monitoring. Have a look in [LoadSimulation](LoadSimulation) to see what kinds of loads I have scripts for.
