@@ -47,4 +47,4 @@ function r_GetFolderSize($folderURL)
 }
 
 Write-Host "------------------------------" -ForegroundColor Gray
-$total_size = r_GetFolderSize('\\civ-ipbw-wss1ms\PST\koningr09')
+$total_size = r_GetFolderSize('\\boi\angery')
