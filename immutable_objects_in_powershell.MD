@@ -1,10 +1,7 @@
 # Immutable objects in Powershell 5
 Immutable objects are great, but hard to do in Powershell natively. Worry not though, with only 3 short functions we can create immutable arrays, hashtables, simple types (string, int, ...) and convert custom object to be immutable too.
 
-`Warning: I did not test the functionality of this method yet beyond what you see for tests below. `
-
-The code below is my attempt to easily declare immutable objects. To use this code, just strip out the examples and dot source
-it to your script. 
+`Warning: I did not test the functionality of this method yet beyond the tests listed below. `
 
 > You could make a powershell module, but that would entail renaming constant() to New-Constant() if you want to avoid
 warning and I don't like the way that looks! Also, modules are great, but they make projects less portable.
