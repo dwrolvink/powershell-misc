@@ -3,11 +3,6 @@ Immutable objects are great, but hard to do in Powershell natively. Worry not th
 
 `Warning: I did not test the functionality of this method yet beyond the tests listed below. `
 
-> You could make a powershell module, but that would entail renaming constant() to New-Constant() if you want to avoid
-warning and I don't like the way that looks! Also, modules are great, but they make projects less portable.
-
-If you want to see examples of the code below, just scroll down to the example section.
-
 ```powershell
 # Creates new hashtable that is immutable from input hashtable
 # NOTE: this is a helper function for constant()
