@@ -8,6 +8,10 @@ How to best organize powershell code? In this tutorial I describe the problems w
 [Introduction to Powershell Modules](Tutorials/IntroductionToModules.md)
 
 # Scripts
+## Immutable objects in Powershell 5
+Immutable objects are great, but hard to do in Powershell. With only 4 functions, we can create immutable arrays, hashtables,
+simple types (string, int, ...) and convert custom object to be immutable too.
+[Immutable objects in powershell 5](immutable_objects_in_powershell.MD)
 
 ## GUI
 ### `GUI` GUI & Jobs Demo
