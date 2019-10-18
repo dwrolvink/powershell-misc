@@ -1,16 +1,8 @@
 # Immutable objects in Powershell 5
-I got interested in functional programming, and although I still don't feel like purely functional programming
-is something that I'd like to do, many of the ideas are pretty useful even in an object-obsessed language like powershell.
+Immutable objects are great, but hard to do in Powershell natively. Worry not though, with only 3 short functions we can create immutable arrays, hashtables, simple types (string, int, ...) and convert custom object to be immutable too.
 
-The two ideas that I like the most are pure functions and immutable variables. When writing powershell scripts, I try
-to write most functions as pure functions, and then I have imperative super-functions (that I like to call routines), that
-call these small nugget-sized pure functions to solve higher order tasks.
+`Warning: I did not test the functionality of this method yet beyond what you see for tests below. `
 
-Immutable objects are just nice because you never have to worry about what the code does with it after declaration
-(good for code that you've written months ago). While you could just decide not to mutate variables after declaration, it's
-nice to have a safeguard.
-
-This last thing though, creating immutable objects in powershell, is insanely convoluted in powershell 5.
 The code below is my attempt to easily declare immutable objects. To use this code, just strip out the examples and dot source
 it to your script. 
 
